@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2016-10-14 12:13:11
+Date: 2016-10-14 17:43:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -239,7 +239,7 @@ CREATE TABLE `ed_auth_rule` (
   `is_show` int(11) DEFAULT '1',
   `condition` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1114 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1115 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ed_auth_rule
@@ -248,9 +248,9 @@ INSERT INTO `ed_auth_rule` VALUES ('2', 'role_manage', 'RoleManage/index', '0', 
 INSERT INTO `ed_auth_rule` VALUES ('1', 'dashboard', 'SiteManage/dashboard', '0', '1', '2016-08-11 14:50:17', 'fa fa-dashboard', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('4', 'site_seting', 'SiteSeting/index', '0', '2', '2016-08-15 16:18:27', 'fa fa-gears', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('3', 'user_manage', 'UserManage/index', '0', '5', '2016-08-15 10:25:55', 'fa fa-users', '1', '');
-INSERT INTO `ed_auth_rule` VALUES ('5', 'article_manage', 'ArticleManage/index', '6', '50', '2016-08-16 14:39:31', 'fa fa-copy', '1', '');
+INSERT INTO `ed_auth_rule` VALUES ('5', 'article_list', 'ArticleManage/index', '1114', '50', '2016-08-16 14:39:31', '', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('6', 'content_manage', ' ', '0', '6', '2016-08-16 15:10:55', 'fa fa-clipboard', '1', '');
-INSERT INTO `ed_auth_rule` VALUES ('7', 'article_category', 'ArticleManage/articleCategory', '6', '50', '2016-08-17 10:18:27', 'fa fa-th-list', '1', '');
+INSERT INTO `ed_auth_rule` VALUES ('7', 'article_category', 'ArticleManage/articleCategory', '1114', '50', '2016-08-17 10:18:27', '', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('8', 'navigation_manage', 'NavigationManage/index', '0', '50', '2016-08-19 10:12:31', 'fa fa-link', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('9', 'block_manage', 'BlockManage/index', '0', '50', '2016-08-22 10:23:00', 'fa fa-th-large', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('10', 'editRole', 'RoleManage/editRole', '2', '50', '2016-08-22 11:38:31', ' ', '0', '');
@@ -277,6 +277,7 @@ INSERT INTO `ed_auth_rule` VALUES ('31', 'editBlockItem', 'BlockManage/editBlock
 INSERT INTO `ed_auth_rule` VALUES ('34', 'delBlock', 'BlockManage/delBlock', '9', '50', '2016-08-25 16:16:46', ' ', '0', '');
 INSERT INTO `ed_auth_rule` VALUES ('35', 'delBlockItem', 'BlockManage/delBlockItem', '9', '50', '2016-08-25 16:17:22', ' ', '0', '');
 INSERT INTO `ed_auth_rule` VALUES ('36', 'user_profile', 'UserManage/userProfile', '3', '50', '0000-00-00 00:00:00', ' ', '0', '');
+INSERT INTO `ed_auth_rule` VALUES ('1114', 'article_manage', '', '6', '50', '2016-10-14 13:17:00', 'fa fa-copy', '1', null);
 INSERT INTO `ed_auth_rule` VALUES ('39', 'auth_menu', 'AuthMenu/index', '0', '3', '2016-10-13 13:40:21', 'fa fa-indent', '1', null);
 
 -- ----------------------------
