@@ -1,0 +1,405 @@
+{% extends "admin/Common/iframe_common.html.twig" %}
+{% block container %}
+<link rel="stylesheet" type="text/css" href="{{base_url('public/admin/css/plugins/webuploader/webuploader.css')}}">
+<style>
+	.uploader-list{
+		margin-bottom: 10px;
+        background: #ccc;
+        text-align: center;
+	}
+	.uploader-list img{
+		max-height: 100px;
+        max-width: 100%;
+	}
+	.item-danger .ibox-title{
+		border-color:red;
+	}
+</style>
+<div id="block-template" class="hide">
+    <div class="col-sm-6 block-item">
+        <div class="ibox-title">
+            <h5>{{lang('block_info')}}</h5>
+			<div class="ibox-tools">
+                <a class="close-link delete-new-item" title="{{lang('delete')}}">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </div>               
+        </div>            
+        <div class="ibox float-e-margins">
+            <div class="ibox-content container-fluid">
+                <div class="row">
+                    <div class="form-group col-sm-3 ">
+                        <label for="none">URL</label>
+                        <input class="form-control form-data" id="add-url" data-name="url"  />
+                    </div>
+                    <div class="form-group col-sm-6 ">
+                        <label for="">{{lang('open_type')}}</label><br>
+                        <div data-name="target" class="btn-group add-target">
+                            <button data-value="_self" class="btn btn-white btn-toggle" >{{lang('current_window')}}</button>                                
+                            <button data-value="_blank" class="btn btn-white btn-toggle" >{{lang('new_window')}}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-3 ">
+                        <label for="none">{{lang("sort")}}</label>
+                        <input class="form-control form-data numberInput" id="add-sort" data-name="sort"  />
+                    </div>
+                </div>                
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs"> 
+                        {% for enable in e_langs %}  
+                            <li class="{% if loop.first %}active{% endif %}"><a data-toggle="tab" href="">{{enable.language}}</a>
+                        </li>
+                        {% endfor %}                           
+                    </ul>
+                        <div class="tab-content">  
+                            {% for enable in e_langs %}  
+                                <div id="" data-lang="{{enable.code}}" class="info-tab tab-pane active">
+                                    <div class="panel-body">
+                                        <div class="form-group must">
+                                            <label for="none">{{lang("title")}}</label>
+                                            <input class="form-control lang-data" data-name="title" />
+                                        </div>
+                                        <div class="form-group" style="max-width: 400px;">
+                                            <label for="none">{{lang("image")}}</label>
+                                            <div class="uploader-container">
+                                                <input type="hidden" class="form-control lang-data image_url" data-name="image_url"  value="" />
+                                                <div class="uploader-list">
+                                                    <img src="/" alt="" style="max-width:100%;height:auto;margin-bottom: 10px;">
+                                                </div>
+                                                <div class="filePicker">{{lang("choose_image")}}</div>
+                                            </div>                            
+                                        </div>                                            
+                                        <div class="form-group" style="max-width: 400px;">
+                                            <label for="none">{{lang("vice_image")}}</label>
+                                            <div class="uploader-container">
+                                                <input type="hidden" class="form-control lang-data image_url" data-name="vice_image_url"  />
+                                                <div class="uploader-list">
+                                                    <img src="/" alt="" style="max-width:100%;height:auto;margin-bottom: 10px;">
+                                                </div>
+                                                <div class="filePicker">{{lang("choose_image")}}</div>
+                                            </div>                            
+                                        </div>                                         
+                                        <div class="form-group">
+                                            <label for="none">{{lang("content")}}</label>
+                                            <textarea rows='5' class="form-control lang-data" data-name="content"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="none">{{lang("description")}}</label>
+                                            <textarea rows='2' class="form-control lang-data" data-name="description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}                                 
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>	
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row block-item-container">
+    {% for item in items %}  
+        <div class="col-sm-6 block-item" data-id="{{item.id}}">
+            <div class="ibox-title">
+                <h5>{{lang('block_info')}}</h5>
+				<div class="ibox-tools">
+                    <a class="close-link delete-item" data-id="{{item.id}}" title="{{lang('delete')}}">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>                
+            </div>            
+            <div class="ibox float-e-margins">           	
+                <div class="ibox-content container-fluid">
+                    <div class="row">
+                        <div class="form-group col-sm-3 ">
+                            <label for="none">URL</label>
+                            <input class="form-control form-data" id="add-url" data-name="url"  value="{{item.url}}" />
+                        </div>
+                        <div class="form-group col-sm-6 ">
+                            <label for="">{{lang('open_type')}}</label><br>
+                            <div data-name="target" class="btn-group add-target">
+                                <button data-value="_self" class="btn btn-white btn-toggle {% if '_self' == item.target %} active{% endif %}" >{{lang('current_window')}}</button>                                
+                                <button data-value="_blank" class="btn btn-white btn-toggle {% if '_blank' == item.target %} active{% endif %}" >{{lang('new_window')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3 ">
+                            <label for="none">{{lang("sort")}}</label>
+                            <input class="form-control form-data numberInput" id="add-sort" data-name="sort"  value="{{item.sort}}" />
+                        </div>
+                    </div>
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs"> 
+                            {% for enable in e_langs %}  
+                                <li {% if loop.first %}class="active"{% endif %}><a data-toggle="tab" href="#tab-{{item.id}}-{{ loop.index }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}">{{enable.language}}</a>
+                            </li>
+                            {% endfor %}                           
+                        </ul>
+                            <div class="tab-content">  
+                                {% for enable in e_langs %}  
+                                    <div id="tab-{{item.id}}-{{ loop.index }}" data-lang="{{enable.code}}" class="info-tab tab-pane active">
+                                        <div class="panel-body">
+                                            <div class="form-group must">
+                                                <label for="none">{{lang("title")}}</label>
+                                                <input class="form-control lang-data" data-name="title"  value="{{item.item_i18n[enable.code].title}}" />
+                                            </div>
+                                            <div class="form-group" style="max-width: 400px;">
+                                                <label for="none">{{lang("image")}}</label>
+                                                <div class="uploader-container">
+                                                    <input type="hidden" class="form-control lang-data image_url" data-name="image_url"  value="{{item.item_i18n[enable.code].image_url}}" />
+                                                    <div class="uploader-list">
+                                                        <img src="{{static_url(item.item_i18n[enable.code].image_url)}}" alt="" style="max-width:100%;height:auto;margin-bottom: 10px;">
+                                                    </div>
+                                                    <div class="filePicker">{{lang("choose_image")}}</div>
+                                                </div>                            
+                                            </div>                                            
+                                            <div class="form-group" style="max-width: 400px;">
+                                                <label for="none">{{lang("vice_image")}}</label>
+                                                <div class="uploader-container">
+                                                    <input type="hidden" class="form-control lang-data image_url" data-name="vice_image_url"  value="{{item.item_i18n[enable.code].vice_image_url}}" />
+                                                    <div class="uploader-list">
+                                                        <img src="{{static_url(item.item_i18n[enable.code].vice_image_url)}}" alt="" style="max-width:100%;height:auto;margin-bottom: 10px;">
+                                                    </div>
+                                                    <div class="filePicker">{{lang("choose_image")}}</div>
+                                                </div>                            
+                                            </div>                                             
+                                            <div class="form-group">
+                                                <label for="none">{{lang("content")}}</label>
+                                                <textarea rows='5' class="form-control lang-data" data-name="content">{{item.item_i18n[enable.code].content|raw}}</textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="none">{{lang("description")}}</label>
+                                                <textarea rows='2' class="form-control lang-data" data-name="description">{{item.item_i18n[enable.code].description}}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}                                 
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="button" id="add-item">
+        	<i class="fa fa-plus"></i>
+            {{lang("add_item")}}
+        </button>    	
+        <button class="btn btn-success" type="button" data-id="{{bid}}" id="submit-item">
+            {{lang("submit")}}
+        </button>
+    </div>       
+</div>
+{% endblock %}
+{% block script %}
+<script src="{{base_url('public/admin/js/plugins/webuploader/webuploader.min.js')}}"></script>    
+ 
+
+<script>
+var static_url = '{{static_url("")}}';
+
+jQuery(document).ready(function($) {
+	$('.block-item-container .uploader-container').each(function(index, el) {
+    	var piker = $(this).find('.filePicker');
+    	var list = $(this).find('.uploader-list');
+    	var imgUrl = $(this).find('.image_url')		
+	    var uploader = WebUploader.create({
+	        auto: true,
+	        // swf文件路径
+	        swf: "{{base_url('public/admin/js/plugins/webuploader/Uploader.swf')}}",
+	        server: "{{base_url('admin/Common/doUpload?filepath=block')}}",
+	        pick: piker,
+	        accept: {
+	            title: 'Images',
+	            extensions: 'gif,jpg,jpeg,bmp,png',
+	            mimeTypes: 'image/*'
+	        }
+	    });
+	    uploader.on('uploadSuccess',function( file,res ) {
+	        if(res.status!="1"){
+	            layer.msg(res.message);
+	            return false;
+	        }
+	        var $li = $(
+	                '<div id="' + file.id + '" class="file-item thumbnail">' +
+	                    '<img>' +
+	                    '<div class="info">' + file.name + '</div>' +
+	                '</div>'
+	                ),
+	        $img = $li.find('img');
+	        list.empty().append( $li );
+	        uploader.makeThumb( file, function( error, src ) {
+	            if ( error ) {
+	                $img.replaceWith('<span>不能预览</span>');
+	                return;
+	            }
+	            $img.attr( 'src', static_url+res.data.file_name );
+	           imgUrl.val(res.data.file_name)
+	        }, 'auto', "auto" );    
+	    }) 		
+	});
+    setTimeout(function(){
+        $('.block-item-container .tab-content').each(function(index, el) {
+            $(this).find(".info-tab").eq(0).siblings('.info-tab').removeClass('active')   
+        });
+    },30)
+    $(document).on('click', '#submit-item', function(event) {
+    	var $this = $(this);
+    	$(".error-info").remove();
+        var data = {
+           "bid":$this.data("id"),
+           "item":[]
+        };
+        $('.block-item-container .block-item').each(function(index, el) {
+        	var block = $(this); 
+            var info = {
+            	image_url:block.find('input[data-name="image_url"]').val(),
+            	url:block.find('input[data-name="url"]').val(),
+            	target:block.find('.add-target .active').data("value")||"",
+            	sort:block.find('input[data-name="sort"]').val()
+            };
+            if(block.data("id")!=""&&block.data("id")!=null){
+            	info.id = block.data("id")
+            }
+            block.find('.info-tab').each(function(index, el) {
+                var lang = $(this).data('lang');
+                info[lang] = {};
+                $(this).find(".lang-data").each(function(index, el) {
+                	var that = $(this);
+	                switch (that[0].nodeName.toLowerCase()) {
+	                    case "div":
+	                        info[lang][that.data("name")] = that.summernote('code')
+	                        break;
+	                    case "textarea":
+	                        info[lang][that.data("name")] = that.val();
+                            break;
+	                    default:
+	                        info[lang][that.data("name")] = that.val();
+	                        break;
+	                }
+                });
+
+            });
+            data.item.push(info);
+        });
+        $.post('{{base_url("admin/BlockManage/editBlockItem")}}',data, function(data, textStatus, xhr) {
+        },"json")
+        .then(function(e){
+            if (e.status!=1) {
+                $('.block-item-container .block-item').eq(e.data).find('.ibox-content').prepend('<div class="alert alert-danger alert-dismissable error-info"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button><p>'+e.message+'</p></div>');
+                var h = $('.block-item-container .block-item').eq(e.data).offset().top;
+                $("html,body").scrollTop(h)
+                return false;
+            }    
+            parent.layer.msg(e.message,{icon:1,time:1500},function(){
+                window.location.reload();
+                
+            })            
+        })
+    });   
+    $(document).on('click', '.delete-item', function(event) {
+    	event.preventDefault();
+    	var id = $(this).data("id");
+        layer.msg("{{lang('delete_confirm')}}",{
+            time:0,
+            btn:['{{lang("confirm")}}','{{lang("cancel")}}'],
+            yes:function(){
+                $.ajax({
+                    url: '{{base_url("admin/BlockManage/delBlockItem")}}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {'item_id': id},
+                    timeout:4000,
+                    beforeSend:function(){
+                        layer.load(2);
+                    }
+                })
+                .done(function(e) {
+                    if (e.status!=1) {
+                        common.ajaxError(e);
+                        return false;
+                    }
+                    layer.closeAll();
+                    window.location.reload();
+                    parent.layer.msg(e.message,{
+                        icon:1
+                    });                
+
+                })
+                .fail(function(e) {
+                    common.ajaxError(e)
+                })
+                .always(function() {
+                    layer.closeAll('loading');
+                });
+                
+            }
+        })
+
+    });
+    $(document).on('click', '.delete-new-item', function(event) {
+    	event.preventDefault();
+    	
+    	$(this).parent().parent().parent().remove();
+    }); 
+    $(document).on('click', '#add-item', function(event) {
+    	event.preventDefault();
+    	var t = new Date().getTime();
+    	var dom = $('#block-template .block-item').clone();
+    	dom.find('a[data-toggle="tab"]').each(function(index, el) {
+    		$(this).attr("href","#tab-"+(t+index));
+    		dom.find('.info-tab').eq(index).attr("id","tab-"+(t+index))
+    	});
+    	$('.block-item-container').append(dom);
+        dom.find(".uploader-container").each(function(index, el) {
+        	var piker = $(this).find('.filePicker');
+        	var list = $(this).find('.uploader-list');
+        	var imgUrl = $(this).find('.image_url')
+    	    var uploader = WebUploader.create({
+    	        auto: true,
+    	        // swf文件路径
+    	        swf: "{{base_url('public/admin/js/plugins/webuploader/Uploader.swf')}}",
+    	        server: "{{base_url('admin/Common/doUpload?filepath=block')}}",
+    	        pick: piker,
+    	        accept: {
+    	            title: 'Images',
+    	            extensions: 'gif,jpg,jpeg,bmp,png',
+    	            mimeTypes: 'image/*'
+    	        }
+    	    });
+    	    uploader.on('uploadSuccess',function( file,res ) {
+    	        if(res.status!="1"){
+    	            layer.msg(res.message);
+    	            return false;
+    	        }
+    	        var $li = $(
+    	                '<div id="' + file.id + '" class="file-item thumbnail">' +
+    	                    '<img>' +
+    	                    '<div class="info">' + file.name + '</div>' +
+    	                '</div>'
+    	                ),
+    	        $img = $li.find('img');
+    	        list.empty().append( $li );
+    	        uploader.makeThumb( file, function( error, src ) {
+    	            if ( error ) {
+    	                $img.replaceWith('<span>不能预览</span>');
+    	                return;
+    	            }
+    	            $img.attr( 'src', static_url+res.data.file_name );
+    	           imgUrl.val(res.data.file_name)
+    	        }, 'auto', "auto" );    
+    	    });
+        });
+        setTimeout(function(){
+            $('.block-item').last().find('.info-tab').eq(0).siblings('.info-tab').removeClass('active');
+        },30)
+
+    	/* Act on the event */
+    });
+});
+</script>
+{% endblock %}

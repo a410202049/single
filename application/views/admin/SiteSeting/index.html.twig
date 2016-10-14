@@ -1,0 +1,270 @@
+{% extends "admin/Common/iframe_common.html.twig" %}
+{% block container %}
+<link rel="stylesheet" type="text/css" href="{{base_url('public/admin/css/plugins/iCheck/custom.css')}}">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>{{lang("site_info")}}</h5>
+                    </div>
+                    <div class="ibox-content">  
+                        <div class="form-group must">
+                            <label class="control-label">多语言切换:</label>
+                            <div class="col-sm-12" style="padding:0;">
+                            <div class="btn-group" id="multi_lang_type">
+                                <button type="button" class="btn btn-white btn-toggle {% if site.multi_lang_type==1 %}active{% endif %}" data-value="1">Cookie</button>
+                                <button type="button" class="btn btn-white btn-toggle {% if site.multi_lang_type==2 %}active{% endif %}" data-value="2">域名</button>
+                            </div></div>
+                        </div>
+  
+
+
+                        <div class="form-group must domain-container {% if site.multi_lang_type==2 %}hide{% endif %}">
+                            <label class="control-label">域名:</label>
+                            <input type="text" autocomplete="off" id="edit-domain" class="form-control domain-input" placeholder="http://" value="{{site.site_domain}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="none" class="control-label">CDN:</label>
+                            <div class="btn-switcher {% if site.cdn == 1 %} active{% endif %}" id="edit-cdn-state">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="form-group cdn-url-container {% if site.cdn != 1 %} hide{% endif %}">
+                            <label class="control-label">CDN URL:</label>
+                            <input type="text" autocomplete="off" value="{{site.cdn_url}}" class="form-control" id="edit-cdn-url">
+                        </div>
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs">
+                                {% for enable in e_langs %}  
+                                    <li {% if loop.first %}class="active"{% endif %}><a data-toggle="tab" href="#tab-{{ loop.index }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}">{{enable.language}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <form action="{{base_url('admin/SiteSeting/saveSeting')}}" method="post">
+                                <div class="tab-content">
+                                    {% for enable in e_langs %}  
+                                        <div id="tab-{{ loop.index }}" data-lang="{{enable.code}}" class="info-tab tab-pane {% if loop.first %}active{% endif %}">
+                                            <div class="panel-body">
+                                                    
+                                                        <div class="form-group multidomain-container {% if site.multi_lang_type =='1' %} hide{% endif %}">
+                                                            <label for="none">{{lang("domain")}}</label>
+                                                            <input class="form-control domain-input" placeholder="http://" data-name="domain" value="{{siteData[enable.code].domain}}" />
+                                                        </div>   
+                                                      
+
+                                                    <div class="form-group">
+                                                        <label for="none">{{lang("site_name")}}</label>
+                                                        <input class="form-control" data-name="sitename" value="{{siteData[enable.code].site_name}}" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="none">{{lang("keyword")}}</label>
+                                                        <input class="form-control" data-name="keywords" value="{{siteData[enable.code].keywords}}" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                    <label for="none">{{lang("description")}}</label>
+                                                        <textarea rows="5" class="form-control" data-name="description" >{{siteData[enable.code].description}}</textarea>
+                                                    </div>       
+                                                    <div class="form-group">
+                                                        <label for="none">
+                                                            {{lang("contact_email")}}
+                                                        </label>
+                                                        <input type="text" class="form-control" data-name="email" value="{{siteData[enable.code].email}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="none">
+                                                            {{lang("contact_tel")}}
+                                                        </label>
+                                                        <input type="text" class="form-control" data-name="phone" value="{{siteData[enable.code].phone}}">
+                                                    </div>    
+                                                    <div class="form-group">
+                                                        <label for="none">
+                                                            {{lang("contact_address")}}
+                                                        </label>
+                                                        <input type="text" class="form-control" data-name="address" value="{{siteData[enable.code].address}}">
+                                                    </div>    
+  
+
+
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                    <div class="form-group mt-20">
+                                        <button class="btn btn-success" type="button" id="set-info">
+                                            {{lang("submit")}}
+                                        </button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>                               
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>{{lang('language_setting')}}</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form action="{{base_url('admin/SiteSeting/setingLang')}}" id="lang-form" method="POST">
+                            <label for="none">{{lang("language")}}:</label>
+                            <div class="form-group">
+                                {% for lang in langs %}                                
+                                    <label class="checkbox-inline i-checks">
+                                        <div class="icheckbox_square-green">
+                                            <input type="checkbox" data-name="{{lang.language}}" class="lang-check" value="{{lang.id}}" name="lang[]" {% if lang.enable == '1' %}checked="checked"{% endif %} />
+                                        </div>
+                                        {{lang.language}}
+                                    </label>
+                                {% endfor %}
+                                                               
+                            </div>
+                            <label for="none">{{lang("default")}}:</label>
+                            <div class="form-group default-lang-container">
+                               {% for enable in enable_langs %}   
+                                <label class="radio-inline i-checks">
+                                    <div class="iradio_square-green">
+                                    <input type="radio" value="{{enable.lang_id}}" class="default-lang-radio" name="defaultLang" {% if enable.id == default %}checked="checked"{% endif %} />
+                                    </div> {{enable.language}}
+                                </label>
+                                 {% endfor %}
+                            </div>                            
+                            <div class="form-group">
+                                <button class="btn btn-success" type="button" id="set-language">
+                                    {{lang("submit")}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>{{lang('extra')}}</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form action="" id="extra-form" method="POST">
+                            <div class="form-group">                          
+                                <label for="none">{{lang("site_analytic")}}:</label>
+                                <div class="btn-switcher" id="is_analytic">
+                                    <span></span>
+                                </div>                         
+                            </div>
+                            <div class="form-group">                          
+                                <label for="none">{{lang("email_report")}}:</label>
+                                <div class="btn-switcher" id="is_email">
+                                    <span></span>
+                                </div>                         
+                            </div>                                                     
+                            <div class="form-group">
+                                <button class="btn btn-success" type="button" id="set-extra">
+                                    {{lang("submit")}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>                
+            </div>
+        </div>
+
+    </div>
+<script src="{{base_url('public/admin/js/plugins/iCheck/icheck.min.js')}}"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $(".i-checks").iCheck({
+            checkboxClass:"icheckbox_square-green",
+            radioClass:"iradio_square-green",
+        })        
+        $('.lang-check').on('ifChanged', function(event) {
+            if($(this).prop('checked')){
+                var dom = $('<label class="radio-inline i-checks">'+
+                            '<div class="iradio_square-green">'+
+                            '<input type="radio" class="default-lang-radio" value="'+$(this).val()+'" name="defaultLang">'+
+                            '</div>'+$(this).data('name')+
+                            '</label>');
+                
+                $('.default-lang-container').append(dom)
+                dom.iCheck({
+                    checkboxClass:"icheckbox_square-green",
+                    radioClass:"iradio_square-green",
+                })   
+            }else{
+                $('input[name="defaultLang"][value="'+$(this).val()+'"]').parent().parent().parent().remove()
+            }   
+            
+        });
+        $(document).on('click', '#set-language', function(event) {
+            event.preventDefault();
+            var data = {
+                lang:[],
+            }
+            $('#lang-form input[type="checkbox"]:checked').each(function(index, el) {
+                data.lang.push($(this).val())
+            });
+            data.defaultLang = $('.default-lang-radio:checked').val();
+            $.post('{{base_url("admin/SiteSeting/setingLang")}}', data, function(data, textStatus, xhr) {
+                /*optional stuff to do after success */
+            },"json")
+            .then(function(e){
+                if (e.status!=1) {
+                    common.ajaxError(e);
+                    return false;
+                }
+                //window.location.reload();
+                layer.msg(e.message,{icon:1})
+            })            
+        });
+
+
+        $(document).on('click', '#multi_lang_type .btn-toggle', function(event) {
+            var val = $(this).data("value");
+            if(val == 1){
+                $('.domain-container').removeClass('hide').show();
+                $('.multidomain-container').hide();
+
+                
+            }
+            if(val == 2){
+                $('.domain-container').hide();
+                $('.multidomain-container').removeClass('hide').show();
+
+            }
+        });
+        $(document).on('click', '#add-cdn-state,#edit-cdn-state', function(event) {
+            if(!$(this).hasClass('active')){
+                $('.cdn-url-container').removeClass('hide').find(".form-control").val("cdn.eptonic.com")
+            }else{
+                $('.cdn-url-container').addClass('hide')
+            }
+        });        
+        $(document).on('click', '#set-info', function(event) {
+            var data = {
+                multi_lang_type:$('#multi_lang_type .active').data("value"),
+                site_domain:$('#edit-domain').val(),
+                site_cdn:$('#edit-cdn-state').hasClass('active')?1:0,
+                cdn_url:$('#edit-cdn-url').val()
+            };
+
+            $('.info-tab').each(function(index, el) {
+                var info = {};
+                $(this).find('.form-control').each(function(index, el) {
+                    info[$(this).data("name")] = $(this).val();
+                });
+                data[$(this).data("lang")] = info;
+            });
+            $.post('{{base_url("admin/SiteSeting/saveSeting")}}',data, function(data, textStatus, xhr) {
+            },"json")
+            .then(function(e){
+                if (e.status!=1) {
+                    common.ajaxError(e);
+                    return false;
+                }    
+                //window.location.reload();
+                layer.msg(e.message,{icon:1})            
+            })
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends "admin/Common/common.html.twig" %}
+{% block container %}
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <span><img alt="image" style="max-width: 140px;" class="" src="{{base_url('public/admin/img/logo.png')}}" /></span>
+
+                        </div>
+                        <div class="logo-element">
+                            E
+                        </div>
+                    </li>
+
+                    {% for item in dataMenu %}
+                        <li>
+                            <a title="{{lang(item.language_label)}}" href="{% if item.method %}{{base_url('admin/'~item.method)}}{% else %}javascript:void(0);{% endif %}" {% if not item['sub'] %}class="J_menuItem"{% endif %}><i class="{{item.icon}}"></i> <span class="nav-label">{{lang(item.language_label)}}</span> <span class="fa {% if item['sub'] %}arrow {% else %} circle {% endif %}"></span></a>
+                            {% if item['sub'] %}
+                                <ul class="nav nav-second-level collapse">
+                                    {% for sub in item.sub %}
+                                        <li >
+                                            <a title="{{lang(sub.language_label)}}"  {% if not sub.sub %}class="J_menuItem"{% endif %} href="{{base_url('admin/'~sub.method)}}">
+                                                {% if sub.icon %}
+                                                    <i class="{{sub.icon}}"></i>
+                                                {% endif %}{{lang(sub.language_label)}}
+                                                <span class="fa {% if sub.sub %}arrow{% endif %}"></span>
+                                            </a>
+                                            {% if sub.sub %}
+                                                <ul class="nav nav-third-level collapse">
+                                                    {% for s in sub.sub %}
+                                                        <li >
+                                                            <a title="{{lang(s.language_label)}}"  class="J_menuItem" href="{{base_url('admin/'~s.method)}}">
+                                                                {% if s.icon %}
+                                                                    <i class="{{s.icon}}"></i>
+                                                                {% endif %}{{lang(s.language_label)}}
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}                    
+                                                </ul>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}                    
+                                </ul>
+                            {% endif %}
+                        </li>
+                     {% endfor %}
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header row">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <h2 class="text-success" style="display: inline-block;"></h2>  
+                        
+                        <a class="minimalize-styl-2 btn btn-success" target="_blank" title="{{lang('preview')}}" href="{{siteData.site_domain}}">
+                            <i class="fa fa-home"></i>&nbsp;
+                            {{lang('preview')}} - {{siteData.site_alias}}
+                        </a> 
+                        <a class="minimalize-styl-2 btn btn-info" title="" href="#">
+                            <i class="fa fa-users"></i>&nbsp;
+                            {{user.name}}
+                        </a>                                                
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="true">{{lang('change_language')}} <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu m-t-xs">
+                                <li>
+                                    <a href="javascript:void(0)" class="change-lang" data-lang="en_us">
+                                        {{lang('en_us')}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="change-lang" data-lang="zh_cn">
+                                        {{lang('zh_cn')}}
+                                        
+                                    </a>
+                                </li>                                
+                            </ul>
+                        </li>                    
+                        <li  class="dropdown">
+                            <a data-toggle="dropdown" class="">
+                                <span class="hidden-xs">{{user.realname}}<b class="caret"></b></span>
+                                <span class="visible-xs"><i class="fa fa-user"></i></span>
+                                
+                            </a>
+                            <ul class="dropdown-menu m-t-xs">
+                                <li><a class="J_menuItem" href="{{base_url('admin/UserManage/userProfile')}}">{{lang('user_profile')}}</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="{{base_url('admin/Login/logout')}}">{{lang('logout')}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="row content-tabs">
+                <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>
+                </button>
+                <nav class="page-tabs J_menuTabs">
+                    <div class="page-tabs-content">
+                        <a href="javascript:;" class="active J_menuTab" data-type="home" data-id="{{base_url('admin/SiteManage/dashboard')}}">{{lang('dashboard')}}</a>
+                    </div>
+                </nav>
+                <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
+                </button>
+                <div class="btn-group roll-nav roll-right">
+                    <button class="dropdown J_tabClose" data-toggle="dropdown">{{lang('close_operate')}}<span class="caret"></span>
+                    </button>
+                    <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                        <li class="J_tabCloseAll"><a>{{lang('close_all_tab')}}</a>
+                        </li>
+                        <li class="J_tabCloseOther"><a>{{lang('close_other_tab')}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row J_mainContent" id="content-main">
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{{base_url('admin/SiteManage/dashboard')}}" frameborder="0" data-id="{{base_url('admin/SiteManage/dashboard')}}"></iframe>
+            </div>
+            <div class="footer">
+                <div class="pull-right">&copy; 2014-2016 <a href="http://www.eptonic.com/" target="_blank">Eptonic</a>
+                </div>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script src="{{base_url('public/admin/js/index.js')}}"></script>
+{% endblock %}

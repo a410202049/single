@@ -1,0 +1,235 @@
+{% extends "admin/Common/iframe_common.html.twig" %}
+{% block container %}
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>{{lang('article_list')}}</h5>
+                    </div>
+                    <div class="ibox-content container-fluid">
+                        <form action="{{base_url('admin/ArticleManage/index/1')}}">
+                            <div class="row col-md-12">
+                                <div class="col-md-3 form-group">
+                                    <label for="search-username">{{lang('article_title')}}</label>
+                                    <input type="text" class="form-control" name="title" id="search-username" value="{{getArr.title}}">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="search-username">{{lang('article_category')}}</label>
+                                    <select class="form-control" name="cid">
+                                            <option value="-1">{{lang('all')}}</option>
+                                        {% for cate in cates %}
+                                            <option value="{{ cate.id }}" {% if getArr.cid == cate.id %}selected="selected"{% endif %}>{{ cate.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="null" class="center-block">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary" id="search-btn"><i class="fa fa-search"></i>{{lang('search')}}</button>
+                                    <button type="button" class="btn btn-primary add-article"><i class="fa fa-plus"></i>&nbsp;{{lang('add_article')}}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="table-responsive col-md-12">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>                                     
+                                        <th>{{lang('article_id')}}</th>
+                                        <th>{{lang('article_title')}}</th>
+                                        <th>{{lang('article_category')}}</th>
+                                        <th>{{lang('publish_time')}}</th>
+                                        <th>{{lang('create_time')}}</th>
+                                        <th>{{lang('actions')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for article in aData %}
+                                    
+                                    <tr>
+                                        <td>
+                                            {{article.artid}}
+                                        </td>
+                                        <td>
+                                            {{article.title}}
+                                        </td>
+                                        <td>
+                                            {{article.name}}
+                                        </td>
+                                        <td>
+                                            {{article.art_release_time}}
+                                        </td>
+                                        <td>
+                                            {{article.art_create_time}}
+                                        </td>
+                                        <td>
+                                            <a href="javascript:void(0)" class="btn btn-sm btn-primary edit-btn" data-id="{{article.artid}}" title="{{lang('edit')}}"><i class="fa fa-edit"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-sm btn-danger delete-btn" data-id="{{article.artid}}" title="{{lang('delete')}}"><i class="fa fa-trash">                                            
+                                        </td>
+                                    </tr>
+                                 {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="fixed-table-pagination col-md-12">
+                            <div class="pull-left pagination-detail">
+                                <span class="pagination-info">{{lang('total_rows')}}<strong>{{dataCount}}</strong>{{lang('rows')}}&nbsp;<strong>{{pager.nowindex}}/{{pager.totalpage}}</strong>{{lang('pages')}}</span>
+                            </div>
+                            {% autoescape true %}  
+                             {{pager.show(1)|raw }}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $(document).on('click','.add-article',function(){
+            var openLayer = layer.open({
+              type: 2,
+              closeBtn:1,
+              title:'{{lang("add_article")}}',
+              shadeClose: false, //开启遮罩关闭
+              area: ['70%', '90%'],
+              maxmin: true,
+              content:'{{base_url("admin/ArticleManage/renderEditArticle")}}'
+            });
+            layer.full(openLayer)
+        })
+        $(document).on('click','.edit-btn',function(){
+            var id = $(this).data('id')
+            var openLayer = layer.open({
+              type: 2,
+              closeBtn:1,
+              title:'{{lang("edit")}}',
+              shadeClose: false, //开启遮罩关闭
+              area: ['600px', 'auto'],
+              maxmin:true,
+              content:'{{base_url("admin/ArticleManage/renderEditArticle")}}?aid='+id,
+            });
+            layer.full(openLayer)
+
+                
+        })
+
+        $(document).on('click','.delete-btn',function(e){
+            var $this = $(this);
+            var id = $this.data("id");
+            layer.msg("{{lang('delete_confirm')}}",{
+                time:0,
+                btn:['{{lang("confirm")}}','{{lang("cancel")}}'],
+                yes:function(){
+                    $.ajax({
+                        url: '{{base_url("admin/ArticleManage/delArticle")}}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'aid': id},
+                        timeout:4000,
+                        beforeSend:function(){
+                            layer.load(2);
+                        }
+                    })
+                    .done(function(e) {
+                        if (e.status!=1) {
+                            common.ajaxError(e);
+                            return false;
+                        }
+                        layer.closeAll();
+                        window.location.reload();
+                        parent.layer.msg(e.message,{
+                            icon:1
+                        });                
+
+                    })
+                    .fail(function(e) {
+                        common.ajaxError(e)
+                    })
+                    .always(function() {
+                        layer.closeAll('loading');
+                    });
+                    
+                }
+            })
+        })
+        $(document).on("click", "#add-user", function(){
+           var data = {
+                realname:$("#add-realname").val(),
+                email:$('#add-email').val(),
+                user_role:$('#add-role').val(),
+                type:'add'
+           }
+           $.ajax({
+                url: '{{base_url("admin/UserManage/editUser")}}',
+                type: 'POST',
+                dataType: 'json',
+                timeout:4000,
+                data:data,
+                beforeSend:function(){
+                    layer.load(2);
+                }
+           })
+           .done(function(e) {
+                if (e.status!=1) {
+                    common.ajaxError(e);
+                    return false;
+                }
+                layer.closeAll();
+                window.location.href = window.location.href;
+                parent.layer.msg(e.message,{
+                    icon:1
+                });
+           })
+           .fail(function(e) {
+                common.ajaxError(e)
+           })
+           .always(function() {
+                layer.closeAll('loading');
+           });
+           
+        });
+        $(document).on('click','#edit-user',function(){
+            var data = {
+                uid:$(this).data('id'),
+                realname:$("#edit-realname").val(),
+                email:$('#edit-email').val(),
+                user_role:$('#edit-role').val(),
+                type:'edit'
+           }
+           $.ajax({
+                url: '{{base_url("admin/UserManage/editUser")}}',
+                type: 'POST',
+                dataType: 'json',
+                timeout:4000,
+                data:data,
+                beforeSend:function(){
+                    layer.load(2);
+                }
+           })
+           .done(function(e) {
+                if (e.status!=1) {
+                    common.ajaxError(e);
+                    return false;
+                }
+                layer.closeAll();
+                window.location.reload();
+                
+                parent.layer.msg(e.message,{
+                    icon:1
+                });
+           })
+           .fail(function(e) {
+                common.ajaxError(e)
+           })
+           .always(function() {
+                layer.closeAll('loading');
+           });
+        })
+
+    });
+
+</script>
+{% endblock %}

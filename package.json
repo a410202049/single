@@ -1,0 +1,23 @@
+{
+  "name": "emore+",
+  "version": "1.0.0",
+  "description": "website of emore+",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev": "^7.1.2",
+    "gulp-rev-collector": "^1.0.5",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0"
+  },
+  "scripts": {
+    "test": "npm start"
+  },
+  "author": "whimsy,kerry",
+  "license": "ISC"
+}
