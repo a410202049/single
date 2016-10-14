@@ -25,22 +25,6 @@ function create_site_log($action = array()) {
     $ci->db->insert('site_log', $arr);
 }
 
-/**
- * [create_platform_log 平台日志]
- */
-function create_platform_log($action = array()) {
-	$ci = &get_instance();
-	$uid = $ci->session->userdata('uid');
-    $create_time = date('Y-m-d H:i:s', time());
-    $ip = $ci->input->ip_address();
-    $arr['create_time'] = $create_time;
-    $arr['user_id'] = $uid;
-    $user = getUid($uid);
-    $id = $action['id'] ? ' id by '.$action['id'] : ' ';
-    $arr['action'] = $user['email']." ".$create_time." ".$action['action']." ".$action['name'].$id;
-    $arr['ip'] = $ip;
-    $ci->db->insert('platform_log', $arr);
-}
 
 function recurse_copy($src,$dst) {  // 原目录，复制到的目录
     $dir = opendir($src);
@@ -127,17 +111,9 @@ function get_block(){
 	$ret = array();
 	$arr = func_get_args();
 	foreach ($arr as $key => $value) {
-		if(!preg_match('/[a-zA-Z]/',$value)){
-			$data = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block')->join('block_i18n as i18n', 'block.id = i18n.block_id')->where(array('block.id'=>$value,'i18n.lang_code'=>$lang))->get()->row_array();
-			$data['child'] = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block_item as item')->join('block_item_i18n as i18n', 'item.id = i18n.block_item_id')->where(array('item.block_id'=>$value,'i18n.lang_code'=>$lang))->order_by("sort","ASC")->get()->result_array();
-			$ret[$key] = $data;
-		}else{
-			$data = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block')->join('block_i18n as i18n', 'block.id = i18n.block_id')->where(array('block.identity_key'=>$value,'i18n.lang_code'=>$lang))->get()->row_array();
-			$data['child'] = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block_item as item')->join('block_item_i18n as i18n', 'item.id = i18n.block_item_id')->where(array('item.block_id'=>$data['id'],'i18n.lang_code'=>$lang))->order_by("sort","ASC")->get()->result_array();
-			$ret[$key] = $data;
-		}
-	
-
+		$data = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block')->join('block_i18n as i18n', 'block.id = i18n.block_id')->where(array('block.identity_key'=>$value,'i18n.lang_code'=>$lang))->get()->row_array();
+		$data['child'] = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block_item as item')->join('block_item_i18n as i18n', 'item.id = i18n.block_item_id')->where(array('item.block_id'=>$data['id'],'i18n.lang_code'=>$lang))->order_by("sort","ASC")->get()->result_array();
+		$ret[$key] = $data;
 	}
 	return $ret;
 }
