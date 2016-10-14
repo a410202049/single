@@ -252,9 +252,9 @@ class Home_Base_Controller extends Base_Controller{
         parent::__construct();
         $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
         $domain = $http_type.$_SERVER['HTTP_HOST'];
-        if($domain == $this->config->item('base_url')){
-            redirect('admin');
-        }
+        // if($domain == $this->config->item('base_url')){
+        //     redirect('admin');
+        // }
 
         $data = $this->db->get('site')->row_array();
         if($data['site_status']=='0'){

@@ -1,109 +1,8 @@
 {% extends "admin/Common/iframe_common.html.twig" %}
 {% block container %}
     <div class="wrapper wrapper-content animated fadeIn">
-        <div class="row">                       
 
-            <div class="col-sm-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <div class="clearfix">
-                            <h5>{{lang("sessions")}}</h5>
-                            <div class="btn-group dropdown-min pull-right">
-                                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle" aria-expanded="false">今日<span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="javascript:void(0)" class="metrics-refresh" data-target="sessions" data-type="today">今日</a></li>
-                                    <li><a href="javascript:void(0)" class="metrics-refresh" data-target="sessions" data-type="yesterday">昨日</a></li>
-                                    <li><a href="javascript:void(0)" class="metrics-refresh" data-target="sessions" data-type="this-week">本周</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins" id="sessions">
-                            <span class="metrics-text sessions-text">-</span>    
-                        </h1>
-                    
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-primary pull-right">{{lang("today")}}</span>
-                        <h5>{{lang("pageviews")}}</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins metrics-text pageviews-text">-</h1>
-                        
-                    </div>
-                </div>
-            </div> 
-            <div class="col-sm-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-primary pull-right">开启</span>
 
-                        <h5>CDN状态</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins">285Mb</h1>
-                        
-                    </div>
-                </div>
-            </div> 
-            <div class="col-sm-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="btn btn-success btn-xs pull-right">增加配额</span>
-                        <h5>云空间配额</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1>
-                            <div class="progress progress-striped no-margins">
-                                <div style="width: 50%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" class="progress-bar progress-bar-success">
-                                    <span class="">250M/500M</span>
-                                </div>
-                            </div>   
-                        </h1>                     
-                    </div>
-                </div>
-            </div>                                    
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Basic Statistic</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li><a href="graph_flot.html#">选项1</a>
-                                </li>
-                                <li><a href="graph_flot.html#">选项2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-
-                        <div class="flot-chart">
-                            <div class="flot-chart-content" id="flot-line-chart" style="padding: 0px; position: relative;">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-sm-6">
                 <div class="ibox float-e-margins">
@@ -181,57 +80,7 @@
     </div>
 <script>
 jQuery(document).ready(function($) {
-    common.getMetrics({
-        url:"{{base_url('admin/Ga/getMetrics')}}",
-        metrics:[
-            "sessions","pageviews"
-        ],
-        range:common.getDate()+"/"+common.getDate()
-    },initMetrics);
-    function initMetrics(data){
-        if(data.length){
-            for(var i in data){
-                var item = data[i];
-                var dom = $("."+item.name+"-text");
-                dom.text("-")
-                var text = "";
-                switch (item.type){
-                    case "INTEGER":
-                    case "STRING":
-                        text = item.value;
-                        break; 
-                    case "TIME":
-                        text = Number(item.value).toFixed(3)+" Sec";
-                        break;
-                    case "PERCENT":
-                        text = Number(item.value).toFixed(2)+"%";
-                        break;
-                    case "CURRENCY":
-                        text = item.value+" $";
-                        break;
-                    default:
-                        text = item.value;
-                        break;
-                }
-                dom.text(text)
-            }
-        }
-    }
-    $(document).on('click', '.metrics-refresh', function(event) {
-        event.preventDefault();
-        var range = common.getDate($(this).data("type")).join("/")
 
-        common.getMetrics({
-            url:"{{base_url('admin/Ga/getMetrics')}}",
-            metrics:[
-                $(this).data("target")
-            ],
-            range:range
-        },initMetrics);
-        $(this).parent().parent().siblings('button').html($(this).text()+'<span class="caret"></span>')
-        console.log($(this).parent().siblings('button'))
-        /* Act on the event */
-    });
 });
 </script>
 {% endblock %}

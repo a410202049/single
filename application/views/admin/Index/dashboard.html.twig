@@ -181,57 +181,7 @@
     </div>
 <script>
 jQuery(document).ready(function($) {
-    common.getMetrics({
-        url:"{{base_url('admin/Ga/getMetrics')}}",
-        metrics:[
-            "sessions","pageviews"
-        ],
-        range:common.getDate()+"/"+common.getDate()
-    },initMetrics);
-    function initMetrics(data){
-        if(data.length){
-            for(var i in data){
-                var item = data[i];
-                var dom = $("."+item.name+"-text");
-                dom.text("-")
-                var text = "";
-                switch (item.type){
-                    case "INTEGER":
-                    case "STRING":
-                        text = item.value;
-                        break; 
-                    case "TIME":
-                        text = Number(item.value).toFixed(3)+" Sec";
-                        break;
-                    case "PERCENT":
-                        text = Number(item.value).toFixed(2)+"%";
-                        break;
-                    case "CURRENCY":
-                        text = item.value+" $";
-                        break;
-                    default:
-                        text = item.value;
-                        break;
-                }
-                dom.text(text)
-            }
-        }
-    }
-    $(document).on('click', '.metrics-refresh', function(event) {
-        event.preventDefault();
-        var range = common.getDate($(this).data("type")).join("/")
 
-        common.getMetrics({
-            url:"{{base_url('admin/Ga/getMetrics')}}",
-            metrics:[
-                $(this).data("target")
-            ],
-            range:range
-        },initMetrics);
-        $(this).parent().parent().siblings('button').html($(this).text()+'<span class="caret"></span>')
-        console.log($(this).parent().siblings('button'))
-        /* Act on the event */
-    });
 });
 </script>
 {% endblock %}
