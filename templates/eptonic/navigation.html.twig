@@ -1,0 +1,59 @@
+<div class="nav navbar-fixed-top container-fluid {% if site.current_lang == "en_us" %} font-en{% endif %}">
+	<div class="nav-img">
+		<img src="{{static_url('image/logo.png')}}" alt="">
+	</div>
+	<span class="nav-control">	<i class="glyphicon glyphicon-menu-hamburger "></i></span>
+	<div class="language-control hidden-xs">
+		<div class="btn-group" >
+{# 			{{site|dump}} #}
+			<a href="{{site.domains["zh_cn"]["domain"]}}" class="btn button {% if site.current_lang == "zh_cn" %}active{% endif %} "data-lang="zh_cn">{{lang("zh_cn")}}</a>
+			<a href="{{site.domains.en_us.domain}}" class="btn button  {% if site.current_lang == "en_us" %}active{% endif %} "data-lang="en_us">{{lang('en_us')}}</a>
+		</div>
+	</div>	
+	<ul class="nav-list hidden-xs">
+		<div class="second-nav-container"></div>
+		{% for nav in navs  %}
+			{% if nav.child is iterable %}
+				<li class="nav-item dropdown ">
+					{{nav.name}}
+					<ul class="second-nav-list">
+						<span class="arrow-up"></span>
+						{% for item in nav.child %}
+						    <a href="/{{item.url}}" target="{{item.target}}"><li class="second-nav-item nav-hover {% if item.active == "true" %} active{% endif %}">{{item.name}}</li></a>
+						{% endfor %}
+					</ul>
+				</li>
+				{% else %}
+				<a href="/{{nav.url}}" target="{{nav.target}}">
+					<li class="nav-item nav-hover {% if nav.active == "true" %} active{% endif %}">
+						{{nav.name}}
+					</li>
+				</a>
+			{% endif %}
+		{% endfor %}
+	</ul>
+	<ul class="nav-list-mobile hide">	
+		{% for nav in navs  %}
+			{% if nav.child is iterable %}
+						<a href="javascript:void(0)" target="{{item.target}}"><li data-target="{{nav.id}}" class="nav-item has-child {% if nav.active == "true" %} active{% endif %}">{{nav.name}}</li></a>
+						<ul class="child-nav hide" id="{{nav.id}}">				
+							{% for item in nav.child %}
+							    <a href="{{item.url}}" target="{{item.target}}"><li class="nav-item second-nav-item {% if item.active == "true" %} active{% endif %}">{{item.name}}</li></a>
+							{% endfor %}
+						</ul>
+				</li>
+				{% else %}
+				<a href="/{{nav.url}}" target="{{nav.target}}">
+					<li class="nav-item{% if nav.active == "true" %} active{% endif %}">
+						{{nav.name}}
+					</li>
+				</a>
+			{% endif %}
+		{% endfor %}
+		{% if site.current_lang == 'zh_cn' %}
+			<a href="{{site.domains.en_us.domain}}" data-lang="en_us"><li class="nav-item">{{lang('change_lang')}}</li></a>
+			{% else %}
+			<a href="{{site.domains.zh_cn.domain}}" data-lang="zh_cn"><li class="nav-item">{{lang('change_lang')}}</li></a>  	
+		{% endif %}
+	</ul>
+</div>

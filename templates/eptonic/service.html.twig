@@ -1,0 +1,146 @@
+{% extends 'common/common.html.twig' %}
+{% block container %}
+<body class="page-service">
+	{% include 'navigation.html.twig' %}
+	<div class="curtain filter">
+		{% set curtain = get_block("service_banner")[0] %}	
+		<img src="{{common_url(curtain.image_url)}}" alt="">
+		<div class="curtain-content text-white row-md" style="">	
+			<article>
+				<h2>{{curtain.description|raw}}</h2>
+				<p>	{{curtain.content|raw}}</p>
+			</article>
+		</div>
+	</div>
+	<div class="container-fluid section-service">
+		<div class="section ">	
+			{% set service = get_block("service_text")[0] %}
+			<div class="row-md">		
+				<article>
+					<h2>{{service.title}}</h2>
+					<p>	{{service.description}}</p>
+					<hr>	
+				</article>
+				{% for item in service.child %}
+					<div class="service-item col-md-4 col-sm-6">
+						<div class="image">	
+							<img src="{{common_url(item.image_url)}}" alt="">
+						</div>
+						<h4>{{item.title}}</h4>
+						<p>	{{item.content|raw}}</p>
+					</div>	
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid section-steps ">
+		<div class="section">		
+		{% set steps  = get_block("service_info")[0] %}
+			<div class="row-md">
+				<article>
+					<h2>{{steps.title}}</h2>
+					<p>{{steps.description}}</p>
+				</article>
+			</div>
+			<div class="row-md">
+				<span class="dotted-span col-xs-2 col-xs-offset-3"></span>
+				<span class="col-xs-2"><img class="hidden-xs" src="{{static_url("image/platform/service-down-arrow.png")}}" alt=""></span>
+				<span class="dotted-span col-xs-2"></span>
+			</div>
+			<div class="row-width steps">
+				<div class="step-odd hidden-xs">
+					{% for item in steps.child if item.sort is odd %}
+						<div class="step-item col-md-12 col-xs-12">
+							<div class="col-xs-10">
+								<h4>{{item.description}}</h4>
+							    <h3>{{item.title}}</h3>
+							    <p>{{item.content}}</p>
+							</div>
+							<div class="col-xs-2 hidden-xs hidden-sm">
+								<img src="{{common_url(item.image_url)}}" alt="">
+								<span class="dot"></span>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+				<div class="hidden-sm hidden-xs dot-container">
+					<span></span>
+				</div>
+				<div class="step-even hidden-xs">
+					{% for item in steps.child if item.sort is even %}
+						<div class="step-item col-md-12 col-xs-12">
+							<div class="col-xs-2 hidden-xs hidden-sm">
+								<img src="{{common_url(item.image_url)}}" alt="">
+								<span class="dot"></span>
+							</div>							
+							<div class="col-xs-10">
+								<h4>{{item.description}}</h4>
+							    <h3>{{item.title}}</h3>
+							    <p>{{item.content}}</p>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+				<div class="step visible-xs">
+					{% for item in steps.child  %}
+						<div class="step-item col-md-12 col-xs-12">					
+							<div class="col-xs-12">
+								<h4>{{item.description}}</h4>
+							    <h3>{{item.title}}</h3>
+							    <p>{{item.content}}</p>
+							</div>
+						</div>
+					{% endfor %}					
+				</div>			
+			</div>
+		</div>
+	</div>
+	<section class="section section-stat show" style="background-color: rgb(10, 144, 226);">
+		{% set stat = get_block("index_statistic")[0] %}
+		<h2>{{stat.description}}</h2>
+		<div class="row">
+			{% for item in stat.child %}
+			    <div class="stat-item">
+					<div class="stat-counter counter" data-count="{{item.title}}">
+						<span class="counter-p">{{item.title}}</span>
+						<span class="counter-content">{{item.content}}</span></div>
+					<h4 class="stat-title">{{item.description}}</h4>			    	
+			    </div>
+			{% endfor %}
+
+		</div>
+	</section>	
+	<section class="section section-partner">
+		{% set partner = get_block("index_partner")[0] %}
+		<article>
+			<h2>{{lang("partner")}}</h2>
+		</article>
+		<hr class="hr-top">
+
+		<div class="row-md" id="slider">
+			<div class="partner-container slider-container">	
+				{% for item in partner.child %}
+					<div class="partner-item slider-item">
+						<img src="{{common_url(item.image_url)}}" title="{{item.title}}" alt="">
+					</div>
+				    
+				{% endfor %}
+				{% for item in partner.child %}
+					<div class="partner-item slider-item">
+						<img src="{{common_url(item.image_url)}}" title="{{item.title}}" alt="">
+					</div>
+				{% endfor %}				
+			</div>
+		</div>
+	</section>	
+	{% include 'contact.html.twig' %}
+</body>
+{% endblock %}
+{% block script %}
+	<script>
+	var partner = new slider({
+		time:4000
+	});
+	partner.init()
+	</script>
+{% endblock %}

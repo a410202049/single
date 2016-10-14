@@ -1,0 +1,32 @@
+{% extends 'common/common.html.twig' %}
+{% block container %}
+<body>
+	{% include 'navigation.html.twig' %}
+	<div class="container-fluid article-container">
+		<div class="article-header row-md">
+			<span for="" class="article-category">
+				{{article.category.name}}
+			</span>
+		</div>
+		<article class="row-md article-content">
+			<h3 class="article-title">
+				{{article.title}}
+			</h3>
+			<h5>
+				<span>{{lang("publisher")}}:{{article.publisher|default(" -")}}</span>
+				<span>{{lang("publish_time")}}:{{article.release_time}}</span>
+			</h5>
+			{{article.content|raw}}
+		</article>
+		<div class="article-footer row-md">
+			<a class="button {% if article.prev %}button-active{% endif %}" {% if article.prev %}
+				href="/article/{{article.prev.id}}"
+			{% endif %}>{{lang("previous")}}</a>
+			<a class="button {% if article.next %}button-active{% endif %}" {% if article.next %}
+				href="/article/{{article.next.id}}"
+			{% endif %}>{{lang("next")}}</a>
+		</div>
+	</div>
+	{% include 'contact.html.twig' %}
+</body>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'common/common.html.twig' %}
+{% block container %}
+
+<body class="page-emn">
+	{% include 'navigation.html.twig' %}
+	<div class="curtain">
+		{% set curtain = get_block("emn_block")[0] %}	
+		<img src="{{common_url(curtain.image_url)}}" alt="">
+		<div class="curtain-content text-white row-md">
+			<article>
+				<h2>{{curtain.title}}</h2>
+				<h4>{{curtain.description}}</h4>
+				<a href="{{curtain.url}}" class="btn button" target="{{curtain.target}}">EMN</a>
+			</article>	
+		</div>
+	</div>
+	<div class="container-fluid no-pd">
+		{% set social = get_block("43")[0] %}
+			{% for item in social.child %}
+				{% if loop.index is odd %}
+				    <div class="section social-left">
+				    	<div class="row-md">
+				    		<div class="col-sm-6 social-content ">
+				    			<h3>{{item.title}}</h3>
+				    			<p>{{item.content|raw}}</p>
+				    		</div>
+				    		<div class="col-sm-6 social-image">
+				    			<img src="{{common_url(item.image_url)}}" alt="">
+				    		</div>
+				    	</div>
+				    </div>
+					{% else %}
+ 				    <div class="section social-right bg">
+				    	<div class="row-md">
+				    		<div class="col-sm-6 social-image">
+				    			<img src="{{common_url(item.image_url)}}" alt="">
+				    		</div>
+				    		<div class="col-sm-6 social-content">
+				    			<h3>{{item.title}}</h3>
+				    			<p>{{item.content|raw}}</p>
+				    		</div>
+				    	</div>
+				    </div>   
+				{% endif %}
+			{% endfor %}
+	</div>
+	{% include 'contact.html.twig' %}
+</body>
+{% endblock %}

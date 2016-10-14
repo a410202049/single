@@ -1,0 +1,35 @@
+<footer class="section footer-home container-fluid">
+	<div class="row-md row-email">
+		<h4 class="pull-left">
+			{{lang('contact')}}<span></span><a href="mailto:{{site.email}}">Eptonic</a>
+		</h4>
+	</div>
+	<div class="row-md row-contact">
+		
+		<h4 class="pull-left">{{lang('phone')}}:{{site.phone}}</h4>
+	</div>
+	<div class="row-md row-contact">
+		<h4 class="pull-left">{{lang("email")}}:<a href="mailto:{{site.email}}">{{site.email}}</a></h4>
+		<div class="pull-right">
+			{% set contact = get_block("contact_block")[0] %}
+				{% for item in contact.child %}
+				    {% if item.id==77 %}
+						<div class="contact-item hidden-xs contact-wechat">
+							<img src="{{common_url(item.image_url)}}" alt="" title="{{item.title}}">
+							<div class="wechat-code">
+								<img src="{{static_url('image/wechat-code.jpg')}}" alt="">
+							</div>
+						</div>
+					{% else %}
+						<div class="contact-item hidden-xs">
+							<a href="{{item.url}}" target="{{item.target}}" title="{{item.title}}"><img src="{{common_url(item.image_url)}}" alt=""></a>
+						</div>
+				    {% endif %}
+				{% endfor %}
+		</div>
+	</div>
+	<div class="row-md row-address">
+		<h5 class="pull-left">{{lang("address")}}:{{site.address}}</h5>
+		<h5 class="pull-right">&copy; Copyright 2016 Eptonic. All Rights Reserved. <a href="/private">Private Policy</a></h5>
+	</div>
+</footer>

@@ -1,0 +1,34 @@
+{% extends 'common/common.html.twig' %}
+{% block container %}
+<body class="page-tech-advantage">
+	{% include 'navigation.html.twig' %}
+	<div class="curtain filter">
+		{% set curtain = get_block("tech_banner")[0] %}	
+		<img src="{{common_url(curtain.image_url)}}" alt="">
+		<div class="curtain-content text-white row-md" style="">
+			<article>
+				<h2>{{curtain.description}}</h2>
+				<p>	{{curtain.content|raw}}</p>
+			</article>	
+		</div>
+	</div>
+	<div class="container-fluid section-container">
+		{% set tech_adv = get_block("tech_advantage")[0] %}
+		<div class="row-md">		
+			<article>
+				<h2>{{tech_adv.title}}</h2>
+				<p>	{{tech_adv.description}}</p>
+				<hr>	
+			</article>
+			{% for item in tech_adv.child %}
+				<div class="tech-item col-md-3 col-xs-12 col-sm-6">	
+					<img src="{{common_url(item.image_url)}}" alt="">
+					<h4>{{item.title}}</h4>
+					<p>	{{item.content|raw}}</p>
+				</div>	
+			{% endfor %}
+		</div>
+	</div>
+	{% include 'contact.html.twig' %}
+</body>
+{% endblock %}

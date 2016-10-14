@@ -1,0 +1,33 @@
+{% set site = get_site_info() %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <title>{{site.site_name}}</title>
+        <meta name="keywords" content="{{site.keywords}}">
+        <meta name="description" content="{{site.description}}">
+        <!--[if lt IE 9]>
+        <meta http-equiv="refresh" content="0;ie.html" />
+        <![endif]-->
+        <link rel="shortcut icon" href="{{static_url("image/favicon.ico")}}">
+        <link href="{{common_url('sites/44/css/animate.css')}}?v=1474956664683" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{static_url('css/style.css')}}?v=1474956664683">
+        <script src="{{common_url('sites/common/js/jquery.min.js')}}?v=1474956664683"></script>
+        <script src="{{common_url('sites/common/js/analytic.js')}}?v=1474956664683"></script>
+        <script src="{{common_url('sites/common/js/bootstrap.min.js')}}?v=1474956664683"></script>
+        
+        {% block style %}{% endblock %}
+    </head>
+    {% block container %}{% endblock %}
+    <script src="{{static_url('js/common.js')}}?v=1474956664683"></script>
+    {% block script %}
+        <script>
+          ga('create', 'UA-84294090-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+    {% endblock %}
+</html>

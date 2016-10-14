@@ -1,0 +1,14 @@
+{% extends 'common/common.html.twig' %}
+{% block container %}
+<body class="page-private">
+	{% include 'navigation.html.twig' %}
+	{% set private = get_block("private_policy")[0] %}
+	<div class="container-fluid private-container">
+		<article class="row-md">
+			<h2 class="private-title">{{private.title}}</h2>
+			{{private.content|raw}}
+		</article>
+	</div>
+	{% include 'contact.html.twig' %}
+</body>
+{% endblock %}

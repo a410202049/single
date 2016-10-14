@@ -1,0 +1,163 @@
+{% extends 'common/common.html.twig' %}
+{% block container %}
+<body>
+	{% include 'navigation.html.twig' %}
+
+	<div class="container-fluid page-article-list">
+		<div class="row-lg row-header">
+			<p class="header-span">
+				NEWS
+			</p>
+			<img src="{{static_url("image/activity-bg.png")}}" alt="">
+		</div>
+		<div class="row-md">
+			<h3 class="article-header">
+				<button class="button active" data-target="activity">{{lang("activity")}}</button>
+				<span class="seperate"></span>
+				<button class="button" data-target="news">{{lang("news")}}</button>
+			</h3>
+		</div>
+		<div class="row-md article-list" id="activity">
+			{% set activity = get_article_list('{
+				"cid":"30",
+				"pageSize":"20"
+			}') %}
+			<div class="article-container">
+				{% for item in activity.articles %}
+				<div class="article-item col-xs-12">
+					<div class="article-title">
+						<a href="/article/{{item.art_id}}"><h3>{{item.art_title}}</h3></a>
+						{% if site.current_lang=="zh_cn" %}
+							<p>{{item.art_release_time|date("Y年n月j日")}}</p>
+							{% else %}
+							<p>{{item.art_release_time|date("Y-n-j")}}</p>
+							    
+						{% endif %}
+					</div>
+					<div class="article-content">
+						<div class="article-img col-md-2 col-sm-3 col-xs-12">
+							<img src="{{common_url(item.art_cover_img)}}" alt="">
+						</div>
+						<div class="article col-md-10 col-sm-9 col-xs-12">
+							<h4>{{item.art_backup_one}}</h4>
+							<a href="/article/{{item.art_id}}"><button class="button">{{lang("read_more")}}</button></a>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			{% if activity.totalpage > 1 %}
+
+			<div class="col-xs-12">
+				<div class="pagination pull-right">
+					<ul>
+						{% for i in 1..(activity.totalpage) %}
+							{% if loop.index == 1  %}
+								<li class="active"><a href="/activity?type=activity&page={{i}}">{{i}}</a></li>
+								{% else %}
+								<li class="" data-page="{{i}}"><a href="/activity?type=activity&page={{i}}">{{i}}</a></li>
+								    
+							{% endif %}
+						    
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+		<div class="row-md article-list hide" id="news">
+			{% set news = get_article_list('{
+				"cid":"31",
+				"pageSize":"20"
+			}') %}
+			<div class="article-container">
+				
+
+			{% for item in news.articles %}
+				<div class="article-item col-xs-12">
+					<div class="article-title">
+						<a href="/article/{{item.art_id}}"><h3>{{item.art_title}}</h3></a>
+						{% if site.current_lang=="zh_cn" %}
+							<p>{{item.art_release_time|date("Y年n月j日")}}</p>
+							{% else %}
+							<p>{{item.art_release_time|date("Y-n-j")}}</p>	    
+						{% endif %}
+					</div>
+					<div class="article-content">
+						<div class="article-img col-md-2 col-sm-3 col-xs-12">
+							<img src="{{common_url(item.art_cover_img)}}" alt="">
+						</div>
+						<div class="article col-md-10 col-sm-9 col-xs-12">
+							<h4>{{item.art_backup_one}}</h4>
+							<a href="/article/{{item.art_id}}"><button class="button">{{lang("read_more")}}</button></a>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			{% if news.totalpage > 1 %}
+
+			<div class="col-xs-12">
+				<div class="pagination pull-right">
+					<ul>
+							{% for i in 1..(news.totalpage) %}
+								{% if loop.index == 1  %}
+									<li class="active"><a href="javascript:void(0);">{{i}}</a></li>
+									{% else %}
+									<li class="" data-page="{{i}}"><a href="javascript:void(0);">{{i}}</a></li>
+									    
+								{% endif %}
+							    
+							{% endfor %}
+					</ul>
+				</div>
+			</div>			
+			{% endif %}
+		</div>		
+	</div>
+	{% include 'contact.html.twig' %}
+</body>
+{% endblock %}
+{% block script %}
+	<script>
+	jQuery(document).ready(function($) {
+		$(document).on('click', '.article-header .button', function(event) {
+			event.preventDefault();
+			var target = $(this).data("target");
+			$(this).addClass('active').siblings('.button').removeClass('active')
+			target = $("#"+target);
+			target.removeClass('hide').siblings('.article-list').addClass('hide');
+			// setUrl({type:$(this).data("target"),page:1});
+		});
+		// initArticle();
+		// window.onpopstate = function(){
+		// 	initArticle();
+		// }
+		// function initArticle(){
+		// 	var type = $.getUrlParam("type");
+		// 	var page = $.getUrlParam("page");
+		// 	if(type!=null){
+		// 		$("#"+type).removeClass('hide').siblings('.article-list').addClass('hide')
+		// 		$('.article-header .button[data-target="'+type+'"]').addClass("active").siblings('.button').removeClass('active')
+		// 	}
+		// 	if(page!=null){
+		// 		var data = {
+		// 			cid:
+		// 		}
+		// 		$.get('/path/to/file', function(data) {
+		// 			/*optional stuff to do after success */
+		// 		});
+		// 	}
+		// }
+		// function setUrl(option){
+		// 	var param = [];
+		// 	for(var i in option){
+		// 		param.push(i+"="+option[i]);
+		// 	}
+		// 	param = param.join("&")
+		//     var url = location.pathname + '?'+param
+		//     history.pushState({url: url, title: document.title}, document.title, url)
+		// }
+	});
+	</script>
+{% endblock %}
