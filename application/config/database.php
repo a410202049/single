@@ -98,10 +98,10 @@ $db['default'] = array(
 
 $db['local'] = array(
 	'dsn'	=> '',
-	'hostname' => '192.168.1.2',
+	'hostname' => '127.0.0.1',
 	'username' => 'root',
-	'password' => 'YD20141208',
-	'database' => 'enterprise_single',
+	'password' => 'root',
+	'database' => 'mysingle',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => 'ed_',
 	'pconnect' => FALSE,

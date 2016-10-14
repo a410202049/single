@@ -23,9 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://admin.emore.biz';
+$config['base_url'] = 'http://www.mysingle.com';
 
-$config['common_url'] = 'http://admin.emore.biz';
+$config['common_url'] = 'http://www.mysingle.com';
 /*
 |--------------------------------------------------------------------------
 | Index File
