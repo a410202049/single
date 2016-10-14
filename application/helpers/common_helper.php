@@ -105,17 +105,13 @@ function get_block_item_num($blockid){
 	return count($block_item);
 }
 
-function get_block(){
+function get_block($identity_key){
 	$ci = &get_instance();
 	$lang = get_defult_lang();
 	$ret = array();
-	$arr = func_get_args();
-	foreach ($arr as $key => $value) {
-		$data = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block')->join('block_i18n as i18n', 'block.id = i18n.block_id')->where(array('block.identity_key'=>$value,'i18n.lang_code'=>$lang))->get()->row_array();
-		$data['child'] = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block_item as item')->join('block_item_i18n as i18n', 'item.id = i18n.block_item_id')->where(array('item.block_id'=>$data['id'],'i18n.lang_code'=>$lang))->order_by("sort","ASC")->get()->result_array();
-		$ret[$key] = $data;
-	}
-	return $ret;
+	$data = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block')->join('block_i18n as i18n', 'block.id = i18n.block_id')->where(array('block.identity_key'=>$identity_key,'i18n.lang_code'=>$lang))->get()->row_array();
+	$data['child'] = $ci->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('block_item as item')->join('block_item_i18n as i18n', 'item.id = i18n.block_item_id')->where(array('item.block_id'=>$data['id'],'i18n.lang_code'=>$lang))->order_by("sort","ASC")->get()->result_array();
+	return $data;
 }
 
 

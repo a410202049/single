@@ -285,6 +285,7 @@ class Home_Base_Controller extends Base_Controller{
             $site_lang = $multi['lang_code'];
         }
 
+        $this->session->set_userdata('domain',$domain);
         setcookie("language", $site_lang, time() + 315360000, "/");
         $this->config->set_item('language', $site_lang);//设置语言
         $this->lang->lang_load('site');//加载语言包
