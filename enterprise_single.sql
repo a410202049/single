@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : remote
-Source Server Version : 50626
-Source Host           : 192.168.1.2:3306
-Source Database       : enterprise_single
+Source Server         : local
+Source Server Version : 50547
+Source Host           : localhost:3306
+Source Database       : mysingle
 
 Target Server Type    : MYSQL
-Target Server Version : 50626
+Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2016-10-14 10:54:44
+Date: 2016-10-14 12:13:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -244,10 +244,10 @@ CREATE TABLE `ed_auth_rule` (
 -- ----------------------------
 -- Records of ed_auth_rule
 -- ----------------------------
-INSERT INTO `ed_auth_rule` VALUES ('2', 'role_manage', 'RoleManage/index', '0', '3', '2016-08-11 14:48:55', 'fa fa-unlock-alt', '1', '');
+INSERT INTO `ed_auth_rule` VALUES ('2', 'role_manage', 'RoleManage/index', '0', '4', '2016-08-11 14:48:55', 'fa fa-unlock-alt', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('1', 'dashboard', 'SiteManage/dashboard', '0', '1', '2016-08-11 14:50:17', 'fa fa-dashboard', '1', '');
-INSERT INTO `ed_auth_rule` VALUES ('4', 'site_seting', 'SiteSeting/index', '0', '5', '2016-08-15 16:18:27', 'fa fa-gears', '1', '');
-INSERT INTO `ed_auth_rule` VALUES ('3', 'user_manage', 'UserManage/index', '0', '4', '2016-08-15 10:25:55', 'fa fa-users', '1', '');
+INSERT INTO `ed_auth_rule` VALUES ('4', 'site_seting', 'SiteSeting/index', '0', '2', '2016-08-15 16:18:27', 'fa fa-gears', '1', '');
+INSERT INTO `ed_auth_rule` VALUES ('3', 'user_manage', 'UserManage/index', '0', '5', '2016-08-15 10:25:55', 'fa fa-users', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('5', 'article_manage', 'ArticleManage/index', '6', '50', '2016-08-16 14:39:31', 'fa fa-copy', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('6', 'content_manage', ' ', '0', '6', '2016-08-16 15:10:55', 'fa fa-clipboard', '1', '');
 INSERT INTO `ed_auth_rule` VALUES ('7', 'article_category', 'ArticleManage/articleCategory', '6', '50', '2016-08-17 10:18:27', 'fa fa-th-list', '1', '');
@@ -277,9 +277,7 @@ INSERT INTO `ed_auth_rule` VALUES ('31', 'editBlockItem', 'BlockManage/editBlock
 INSERT INTO `ed_auth_rule` VALUES ('34', 'delBlock', 'BlockManage/delBlock', '9', '50', '2016-08-25 16:16:46', ' ', '0', '');
 INSERT INTO `ed_auth_rule` VALUES ('35', 'delBlockItem', 'BlockManage/delBlockItem', '9', '50', '2016-08-25 16:17:22', ' ', '0', '');
 INSERT INTO `ed_auth_rule` VALUES ('36', 'user_profile', 'UserManage/userProfile', '3', '50', '0000-00-00 00:00:00', ' ', '0', '');
-INSERT INTO `ed_auth_rule` VALUES ('37', 'report_center', ' ', '0', '50', '2016-09-21 15:11:00', 'fa fa-bar-chart', '1', '');
-INSERT INTO `ed_auth_rule` VALUES ('38', 'brief_report', 'ReportManage/briefReport', '37', '50', '2016-09-21 15:17:00', 'fa fa-pie-chart', '1', '');
-INSERT INTO `ed_auth_rule` VALUES ('39', 'auth_menu', 'AuthMenu/index', '0', '2', '2016-10-13 13:40:21', 'fa fa-indent', '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('39', 'auth_menu', 'AuthMenu/index', '0', '3', '2016-10-13 13:40:21', 'fa fa-indent', '1', null);
 
 -- ----------------------------
 -- Table structure for `ed_block`
@@ -294,7 +292,7 @@ CREATE TABLE `ed_block` (
   `image_url` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `identity_key` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of ed_block
@@ -386,7 +384,7 @@ CREATE TABLE `ed_block_item` (
   `url` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `image_url` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of ed_block_item
@@ -683,7 +681,7 @@ CREATE TABLE `ed_navigation` (
   `url` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pid` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of ed_navigation
@@ -757,7 +755,7 @@ CREATE TABLE `ed_site` (
 -- ----------------------------
 -- Records of ed_site
 -- ----------------------------
-INSERT INTO `ed_site` VALUES ('eptonic', 'http://www.baidu.com', 'eptonic ', null, '2016-08-24 16:00:15', '(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){\n          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n          m=s.getElementsByTagName', '1', null, '0', '2', 'cdn.eptonic.com', '1');
+INSERT INTO `ed_site` VALUES ('eptonic', 'http://www.mysingle.com', 'eptonic ', null, '2016-08-24 16:00:15', '(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){\n          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n          m=s.getElementsByTagName', '1', null, '0', '1', 'cdn.eptonic.com', '1');
 
 -- ----------------------------
 -- Table structure for `ed_site_enable_language`
@@ -815,7 +813,7 @@ CREATE TABLE `ed_site_log` (
   PRIMARY KEY (`id`),
   KEY `create_time` (`create_time`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1457 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1460 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ed_site_log
@@ -1993,6 +1991,9 @@ INSERT INTO `ed_site_log` VALUES ('1453', '2016-10-13 11:49:38', '1', 'admin@qq.
 INSERT INTO `ed_site_log` VALUES ('1454', '2016-10-13 16:55:22', '1', 'admin@qq.com 2016-10-13 16:55:22 add Navigation id by 55', '127.0.0.1');
 INSERT INTO `ed_site_log` VALUES ('1455', '2016-10-13 16:55:28', '1', 'admin@qq.com 2016-10-13 16:55:28 del Navigation id by 55', '127.0.0.1');
 INSERT INTO `ed_site_log` VALUES ('1456', '2016-10-13 16:56:31', '1', 'admin@qq.com 2016-10-13 16:56:31 del block id by 47', '127.0.0.1');
+INSERT INTO `ed_site_log` VALUES ('1457', '2016-10-14 11:59:58', '1', 'admin@qq.com 2016-10-14 11:59:58 save seting ', '127.0.0.1');
+INSERT INTO `ed_site_log` VALUES ('1458', '2016-10-14 12:00:37', '1', 'admin@qq.com 2016-10-14 12:00:37 set lang ', '127.0.0.1');
+INSERT INTO `ed_site_log` VALUES ('1459', '2016-10-14 12:00:52', '1', 'admin@qq.com 2016-10-14 12:00:52 set lang ', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `ed_support_language`
@@ -2033,7 +2034,7 @@ CREATE TABLE `ed_user` (
 -- ----------------------------
 -- Records of ed_user
 -- ----------------------------
-INSERT INTO `ed_user` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@qq.com', '高源', '1', '2016-10-14 10:12:15', '127.0.0.1', null);
+INSERT INTO `ed_user` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@qq.com', '高源', '1', '2016-10-14 11:51:35', '127.0.0.1', null);
 INSERT INTO `ed_user` VALUES ('2', 'test', 'e10adc3949ba59abbe56e057f20f883e', '1509699669@qq.com', '仲维1111', '1', '2016-10-13 16:48:09', '127.0.0.1', null);
 INSERT INTO `ed_user` VALUES ('49', 'zero', '8f7e8b04b2c16ba2e9b863b28dabb05e', '410202049@qq.com', 'zero', '1', '2016-10-10 15:08:02', '0.0.0.0', null);
 INSERT INTO `ed_user` VALUES ('50', '仲维', '3cc4d989fff322ac664b01a619a3fa92', 'whimsy@eptonic.com', '仲维', '1', '2016-10-12 10:07:40', '127.0.0.1', null);
