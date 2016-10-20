@@ -9,7 +9,7 @@ class Index extends Home_Base_Controller {
     }
 
 	public function index()
-	{
-		$this->twig->render($this->nav["url"].'.html');
+	{	
+		$this->twig->render('index.html');
 	}
 }

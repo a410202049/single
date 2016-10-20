@@ -292,30 +292,10 @@ class Home_Base_Controller extends Base_Controller{
         $this->config->set_item('language', $site_lang);//设置语言
         $this->lang->lang_load('site');//加载语言包
 
-        $pageType = $this->uri->segment(1);
-        $url = $pageType ? $pageType : 'index';
+
         $nav = $this->db->get_where('navigation',array('url'=>$url))->row_array();
         $navs = $this->db->select('*,case url when "" then "javascript:void(0);" else url end as url')->from('navigation as nav')->join('navigation_i18n as i18n', 'nav.id = i18n.nav_id')->order_by('nav.sort', 'asc')->where(array('nav.type'=>'1','i18n.lang_code'=>$site_lang))->get()->result_array();
 
-        if($url != 'article' && $url !='ajaxpage'){
-            if(!$nav){
-                show_404();
-            }
-            $navsActive = $this->getPid($nav['id'],$navs);
-            if($navsActive){            
-                foreach ($navs as $key => $value) {
-                    foreach ($navsActive as $k => $v) {
-                        if($value['id'] ==$v['id']){
-                            $navs[$key]['active'] = "true";
-                            break;
-                        }
-                        $navs[$key]['active'] = "false";
-
-                    }
-                }
-            }
-            $this->nav = $nav;
-        }
         $navs = tree($navs);
         $site = $this->get_site_info();
         $this->twig->assign('site',$site);
