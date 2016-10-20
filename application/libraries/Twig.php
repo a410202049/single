@@ -41,12 +41,7 @@ class Twig {
         $this->twig->addFunction(new Twig_SimpleFunction('site_url', 'site_url'));
         $this->twig->addFunction(new Twig_SimpleFunction('lang', 'lang'));
         $this->twig->addFunction(new Twig_SimpleFunction('base_url', 'base_url'));
-        $this->twig->addFunction(new Twig_SimpleFunction('get_link', 'get_link'));
-        $this->twig->addFunction(new Twig_SimpleFunction('get_block_item_num', 'get_block_item_num'));
-        $this->twig->addFunction(new Twig_SimpleFunction('get_site_info', 'get_site_info'));
         $this->twig->addFunction(new Twig_SimpleFunction('get_block', 'get_block'));
-        $this->twig->addFunction(new Twig_SimpleFunction('get_article_list', 'get_article_list'));
-        $this->twig->addFunction(new Twig_SimpleFunction('get_article', 'get_article'));
         $this->twig->addFunction(new Twig_SimpleFunction('static_url', 'static_url'));
         $this->twig->addFunction(new Twig_SimpleFunction('common_url', 'common_url'));
         $this->twig->addFilter(new Twig_SimpleFilter('dump', 'dump'));

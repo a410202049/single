@@ -317,7 +317,10 @@ class Home_Base_Controller extends Base_Controller{
             $this->nav = $nav;
         }
         $navs = tree($navs);
+        $site = $this->get_site_info();
+        $this->twig->assign('site',$site);
         $this->twig->assign('navs',$navs);
+
     }
 
     /**
@@ -335,6 +338,30 @@ class Home_Base_Controller extends Base_Controller{
     }
 
 
+    function get_defult_lang(){
+        $data = $this->db->get('site')->row_array();
+        if($data['multi_lang_type'] == '1'){
+            $lang = $this->db->query("select * from ed_site_enable_language as l left join ed_support_language as s on l.lang_id = s.id where l.is_default = 1")->row_array();
+            $site_lang = isset($_COOKIE['language']) ? $_COOKIE['language'] : $lang['code'];
+        }else{
+            $domain = $this->session->userdata('domain');
+            $multi = $this->db->get_where('site_i18n',array('domain'=>$domain))->row_array();
+            $site_lang = $multi['lang_code'];
+        }
+        return $site_lang;
+    }
+
+    function get_site_info(){
+        $lang = $this->get_defult_lang();
+        $siteData = $this->db->query('select s.*,i18n.* from ed_site as s ,ed_site_i18n as i18n where i18n.lang_code = "'.$lang.'"')->row_array();
+        $langs = $this->db->query("select l.*,s.language,s.code from ed_site_enable_language as l left join ed_support_language as s on l.lang_id = s.id ")->result_array();
+        $siteData['current_lang'] = $lang;
+        $siteData['langs'] = $langs;
+        $domains = $this->db->get_where('site_i18n')->result_array();
+        $domains = array_combine(array_column($domains,'lang_code'),$domains);
+        $siteData['domains'] = $domains;
+        return $siteData;
+    }
 
 
 

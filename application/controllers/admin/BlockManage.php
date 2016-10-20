@@ -19,6 +19,12 @@ class BlockManage extends Home_Auth_Controller {
     	$page['query'] = $sql;
     	$page['url'] = 'admin/BlockManage/index/';
     	$blockData = $this->page($page);
+
+    	foreach ($blockData as $key => $value) {
+			$num = $this->db->where(array('block_id'=>$value['id']))->from('block_item')->count_all_results();
+    		$blockData[$key]['item_count'] = $num;
+
+    	}
 	    $arr['pager'] = $this->mypage_class;
 	    $arr['dataCount'] = count($blockData);
 	    $arr['blockData'] = $blockData;
