@@ -198,7 +198,9 @@ class Home_Auth_Controller extends Home_Base_Auth_Controller{
     public function __construct()
     {
         parent::__construct();
-
+        $siteData = $this->db->get('site')->row_array();
+        $siteDomain = $this->db->get('site_i18n')->row_array();
+        $siteData['site_domain'] = $siteDomain['domain'];
         $where = array('is_show'=>'1');
         $rules = $this->db->order_by('sort', 'asc')->get_where('auth_rule',$where)->result_array();
         foreach ($rules as $key => $value) {
