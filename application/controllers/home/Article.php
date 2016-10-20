@@ -16,7 +16,7 @@ class Article extends Home_Base_Controller {
 		$lang = get_defult_lang();
 		$article = $this->db->select('*')->from('article as a')->join('article_i18n as i18n', 'a.id = i18n.article_id')->where(array('a.id'=>$id,'i18n.lang_code'=>$lang,'a.is_del'=>'0'))->get()->row_array();
 		$common_url = $this->config->item('common_url');
-		$article['content'] = str_replace('src="', 'src="'.$common_url.'/sites/'.'/', $article['content']);
+		$article['content'] = str_replace('src="', 'src="'.$common_url, $article['content']);
 		$arr['article'] = $article;
 		$ids = $this->db->query('SELECT id FROM ed_article where is_del = 0 ORDER BY release_time desc ,id desc')->result_array();
 		$ids = array_column($ids, 'id');
